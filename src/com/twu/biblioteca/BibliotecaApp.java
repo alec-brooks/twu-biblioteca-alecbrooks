@@ -3,6 +3,8 @@ package com.twu.biblioteca;
 public class BibliotecaApp {
 
     public static void main(String[] args) {
-        System.out.println("Hello, world!");
+        UserInterface ui = new UserInterface();
+        System.out.println(ui.getWelcomeMessage());
+        System.out.println(ui.getBookList());
     }
 }
