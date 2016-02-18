@@ -1,7 +1,19 @@
 package com.twu.biblioteca;
 
-/**
- * Created by ack on 2/19/16.
- */
 public class Book {
+    String title;
+    String author;
+    int yearPublished;
+    Boolean checkedOut;
+
+    public Book(String title, String author, int yearPublished){
+        title = title;
+        author = author;
+        yearPublished = yearPublished;
+        checkedOut = false;
+    }
+
+    public void checkOut(){
+        checkedOut = true;
+    }
 }
