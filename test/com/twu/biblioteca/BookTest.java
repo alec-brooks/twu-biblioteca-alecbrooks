@@ -1,6 +1,8 @@
 package com.twu.biblioteca;
 
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
@@ -33,5 +35,11 @@ public class BookTest {
         ArrayList<Book> bl = getBookList();
         bl.get(0).checkOut();
         assertTrue(bl.get(0).checkedOut);
+    }
+
+    @Test
+    public void testTitle(){
+        ArrayList<Book> bl = getBookList();
+        assertEquals(bl.get(0).getTitle(), "1984");
     }
 }

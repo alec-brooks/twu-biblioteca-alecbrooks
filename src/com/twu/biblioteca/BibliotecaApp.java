@@ -1,17 +1,14 @@
 package com.twu.biblioteca;
 
+import java.util.ArrayList;
+
 public class BibliotecaApp {
 
     public static void main(String[] args) {
-        UserInterface ui = new UserInterface();
-        System.out.println(ui.getWelcomeMessage());
-        System.out.println(ui.getMenuString());
+        Library l = new Library();
+        l.runUI();
 
-        int menuSelection = -1;
-
-        while(menuSelection != ui.getExitCode()){
-            menuSelection = ui.getUserMenuSelection();
-            System.out.println(ui.getMenuOption(menuSelection));
-        }
     }
+
+
 }

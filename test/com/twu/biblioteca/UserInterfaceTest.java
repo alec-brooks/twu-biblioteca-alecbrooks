@@ -6,14 +6,14 @@ import static org.junit.Assert.assertEquals;
 
 public class UserInterfaceTest {
 
-    String bookList =   "Title                           Author                          Year\n"+
+    String bookListString =   "Title                           Author                          Year\n"+
                         "1984                          | George Orwell                 | 1949\n"+
                         "Lolita                        | Vladmir Nabokov               | 1955\n"+
                         "The Old Patagonian Express    | Paul Theroux                  | 1979\n\n";
 
     String menuString = "Choose from the following options and press enter:\n1. List Books\n0. Quit";
 
-    UserInterface ui = new UserInterface();
+    UserInterface ui = new UserInterface(new Library().getBookList());
 
     @Test
     public void testGetWelcomeMessage() {
@@ -23,7 +23,7 @@ public class UserInterfaceTest {
 
     @Test
     public void testGetBookList(){
-        assertEquals(bookList, ui.getBookList());
+        assertEquals(bookListString , ui.getBookListString());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class UserInterfaceTest {
 
     @Test
     public void testListBooksSelection(){
-        assertEquals(bookList+menuString, ui.getMenuOption(1));
+        assertEquals(bookListString +menuString, ui.getMenuOption(1));
     }
 
     @Test
