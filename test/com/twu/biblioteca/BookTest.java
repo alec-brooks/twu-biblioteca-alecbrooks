@@ -24,6 +24,11 @@ public class BookTest {
         return bookList;
     }
 
+    public ArrayList<Book> checkout1984(ArrayList<Book> bl){
+        bl.get(0).checkOut();
+        return bl;
+    }
+
     @Test
     public void testBooksAvailableAtStart(){
         ArrayList<Book> bl = getBookList();
@@ -33,7 +38,7 @@ public class BookTest {
     @Test
     public void testBookCheckout(){
         ArrayList<Book> bl = getBookList();
-        bl.get(0).checkOut();
+        bl = checkout1984(bl);
         assertTrue(bl.get(0).checkedOut);
     }
 
@@ -41,5 +46,26 @@ public class BookTest {
     public void testTitle(){
         ArrayList<Book> bl = getBookList();
         assertEquals(bl.get(0).getTitle(), "1984");
+    }
+
+    @Test
+    public void testBookCheckoutSuccess(){
+        ArrayList<Book> bl = getBookList();
+        assertTrue(bl.get(0).checkOut());
+    }
+
+    @Test
+    public void testBookCheckoutFailure(){
+        ArrayList<Book> bl = getBookList();
+        bl = checkout1984(bl);
+        assertFalse(bl.get(0).checkOut());
+    }
+
+    @Test
+    public void testBookReturn(){
+        ArrayList<Book> bl = getBookList();
+        bl = checkout1984(bl);
+        bl.get(0).returnBook();
+        assertFalse(bl.get(0).checkedOut);
     }
 }

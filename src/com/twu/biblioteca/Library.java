@@ -31,13 +31,23 @@ public class Library {
     public void runUI(){
         ui = new UserInterface(bookList);
         System.out.println(ui.getWelcomeMessage());
-        System.out.println(ui.getMenuString());
 
         int menuSelection = -1;
 
         while(menuSelection != ui.getExitCode()){
+            System.out.println(ui.getMenuString());
             menuSelection = ui.getUserMenuSelection();
             System.out.println(ui.getMenuOption(menuSelection));
+
+            switch (menuSelection){
+                case 2:
+                    System.out.println(ui.checkOutMenuSelection(ui.getUserMenuSelection()));
+                    break;
+                case 3:
+                    System.out.println(ui.returnMenuSelection(ui.getUserMenuSelection()));
+                default:
+                    break;
+            }
         }
     }
 }

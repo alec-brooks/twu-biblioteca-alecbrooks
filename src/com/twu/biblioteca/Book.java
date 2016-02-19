@@ -13,8 +13,16 @@ public class Book {
         checkedOut = false;
     }
 
-    public void checkOut(){
-        checkedOut = true;
+    public Boolean checkOut(){
+        Boolean success;
+
+        success = !checkedOut;
+
+        if(success){
+            checkedOut = true;
+        }
+
+        return success;
     }
 
     public String getTitle(){
@@ -31,5 +39,17 @@ public class Book {
 
     public Boolean getCheckedOut() {
         return checkedOut;
+    }
+
+    public Boolean returnBook(){
+        Boolean success;
+
+        success = checkedOut;
+
+        if(success){
+            checkedOut = false;
+        }
+
+        return success;
     }
 }

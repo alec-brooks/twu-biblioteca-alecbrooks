@@ -20,32 +20,51 @@ public class UserInterface {
     }
 
     public String getBookListString(){
-        String bookListString = "Title                           Author                          Year\n";
+        return getBookListString(false);
+    }
+
+    public String getBookListString(boolean numbered){
+        String bookListString = "";
+        int bookNumber = 1;
+        if(!numbered) {
+            bookListString = "Title                           Author                          Year\n";
+        }
         for(Book b: bookList){
-            bookListString += b.getTitle();
-            bookListString += generateNChars(TITLE_LIMIT-b.getTitle().length(), ' ');
-            bookListString += DELIMITER;
-            bookListString += b.getAuthor();
-            bookListString += generateNChars(AUTHOR_LIMIT-b.getAuthor().length(), ' ');
-            bookListString += DELIMITER;
-            bookListString += b.getYearPublished();
-            bookListString += "\n";
+            if(numbered || !b.getCheckedOut()){
+                if(numbered){
+                    bookListString += bookNumber++ + ". ";
+                }
+                bookListString += b.getTitle();
+                bookListString += generateNChars(TITLE_LIMIT - b.getTitle().length(), ' ');
+                bookListString += DELIMITER;
+                bookListString += b.getAuthor();
+                bookListString += generateNChars(AUTHOR_LIMIT - b.getAuthor().length(), ' ');
+                bookListString += DELIMITER;
+                bookListString += b.getYearPublished();
+                bookListString += "\n";
+            }
         }
         bookListString += "\n";
         return bookListString;
     }
 
     public String getMenuString(){
-        String menuString = "Choose from the following options and press enter:\n1. List Books\n0. Quit";
+        String menuString = "Choose from the following options and press enter:\n" +
+                "1. List Books\n" +
+                "2. Checkout Book\n" +
+                "3. Return Book\n" +
+                "0. Quit";
         return menuString;
     }
 
     public String getMenuOption(int selection){
         switch (selection){
             case 1:
-                return getBookListString() + getMenuString();
+                return getBookListString();
             case 2:
                 return getCheckOutMenu();
+            case 3:
+                return getReturnMenu();
             case 0:
                 return "";
             default:
@@ -75,11 +94,54 @@ public class UserInterface {
     }
 
     public String getCheckOutMenu() {
-        String checkOutMenu= "Which book is being checked out? Make a selection.\n"+
-                "1. 1984                          | George Orwell                 | 1949\n" +
-                "2. Lolita                        | Vladmir Nabokov               | 1955\n" +
-                "3. The Old Patagonian Express    | Paul Theroux                  | 1979\n\n";
+        String checkOutMenu= "Which book is being checked out? Make a selection.\n"+ getBookListString(true);
+
         return checkOutMenu;
+    }
+
+    public String getReturnMenu() {
+        String returnMenu = "Which book is being returned? Make a selection.\n"+ getBookListString(true);
+
+        return returnMenu;
+    }
+
+    public String checkOutMenuSelection(int selection) {
+        String successMsg = "Thank you! Enjoy the book.";
+        String failMsg = "That book is not available.";
+        String menuType = "checkout";
+        return secondaryMenuSelection(selection, successMsg, failMsg, menuType);
+    }
+
+    public String returnMenuSelection(int selection) {
+        String successMsg = "Thank you for returning the book.";
+        String failMsg = "That is not a valid book to return.";
+        String menuType = "return";
+        return secondaryMenuSelection(selection, successMsg, failMsg, menuType);
+    }
+
+    public String secondaryMenuSelection(int selection, String successMsg, String failMsg, String menuType){
+        String msg;
+        Boolean valid = selection > 0 && selection < bookList.size();
+        Boolean success;
+        if (valid) {
+            if (menuType.equals("checkout")){
+                success = bookList.get(selection - 1).checkOut();
+            } else if (menuType.equals("return")){
+                success = bookList.get(selection - 1).returnBook();
+            } else{
+                success = false;
+            }
+            if(success){
+                msg =  successMsg;
+            } else {
+                msg = failMsg;
+            }
+
+        } else {
+            msg = invalidMenuSelection();
+        }
+
+        return msg;
     }
 
     public String generateNChars(int n, char c){
