@@ -3,6 +3,7 @@ package com.twu.biblioteca;
 public class BorrowableItem {
     String title;
     String creator;
+    String noun;
     int yearReleased;
     int rating;
     Boolean checkedOut;

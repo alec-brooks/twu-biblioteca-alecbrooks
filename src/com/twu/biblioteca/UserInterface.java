@@ -87,6 +87,8 @@ public class UserInterface {
                 "2. Checkout Book\n" +
                 "3. Return Book\n" +
                 "4. List Movies\n" +
+                "5. Checkout Movie\n" +
+                "6. Return Movie\n" +
                 "0. Quit";
         return menuString;
     }
@@ -96,13 +98,15 @@ public class UserInterface {
             case 1:
                 return getBookListString();
             case 2:
-                return getCheckOutMenu();
+                return getBookCheckOutMenu();
             case 3:
-                return getReturnMenu();
+                return getBookReturnMenu();
             case 4:
                 return getMovieListString();
             case 5:
-                return getCheckOutMenu();
+                return getMovieCheckOutMenu();
+            case 6:
+                return getMovieReturnMenu();
             case 0:
                 return "";
             default:
@@ -131,41 +135,87 @@ public class UserInterface {
         return "Select a valid option!";
     }
 
-    private String getCheckOutMenu() {
-        String checkOutMenu= "Which book is being checked out? Make a selection.\n"+ getBookListString(true);
-
-        return checkOutMenu;
+    private String getBookCheckOutMenu(){
+        return getSecondaryMenu("book", "checked out");
     }
 
-    private String getReturnMenu() {
-        String returnMenu = "Which book is being returned? Make a selection.\n"+ getBookListString(true);
-
-        return returnMenu;
+    private String getMovieCheckOutMenu(){
+        return getSecondaryMenu("movie", "checked out");
     }
 
-    public String checkOutMenuSelection(int selection) {
-        String successMsg = "Thank you! Enjoy the book.";
-        String failMsg = "That book is not available.";
+    private String getBookReturnMenu() {
+        return getSecondaryMenu("book", "returned");
+    }
+
+    private String getMovieReturnMenu() {
+        return getSecondaryMenu("movie", "returned");
+    }
+
+    private String getSecondaryMenu(String menuItemType, String pastVerb) {
+        String listString = "";
+
+        if(menuItemType.equals("book")) {
+            listString = getBookListString(true);
+        } else if (menuItemType.equals("movie")){
+            listString = getMovieListString(true);
+        }
+
+        String secondaryMenu = "Which "+menuItemType+" is being "+pastVerb+"? Make a selection.\n"+ listString;
+
+        return secondaryMenu;
+    }
+
+    public String checkOutBookMenuSelection(int selection) {
         String menuType = "checkout";
-        return secondaryMenuSelection(selection, successMsg, failMsg, menuType);
+        String menuItemType = "book";
+        return secondaryMenuSelection(selection, menuType, menuItemType);
     }
 
-    public String returnMenuSelection(int selection) {
-        String successMsg = "Thank you for returning the book.";
-        String failMsg = "That is not a valid book to return.";
+    public String returnBookMenuSelection(int selection) {
         String menuType = "return";
-        return secondaryMenuSelection(selection, successMsg, failMsg, menuType);
+        String menuItemType = "book";
+        return secondaryMenuSelection(selection, menuType, menuItemType);
     }
 
-    private String secondaryMenuSelection(int selection, String successMsg, String failMsg, String menuType){
+    public String checkOutMovieMenuSelection(int selection) {
+        String menuType = "checkout";
+        String menuItemType = "movie";
+        return secondaryMenuSelection(selection, menuType, menuItemType);
+    }
+
+    public String returnMovieMenuSelection(int selection) {
+        String menuType = "return";
+        String menuItemType = "movie";
+        return secondaryMenuSelection(selection, menuType, menuItemType);
+    }
+    private String secondaryMenuSelection(int selection, String menuType, String menuItemType){
         String msg;
-        Boolean valid = selection > 0 && selection <= bookList.size();
+        String successMsg = "";
+        String failMsg = "";
+
+        ArrayList<BorrowableItem> itemList = new ArrayList<BorrowableItem>();
+
+        if(menuType.equals("return")){
+            successMsg = "Thank you for returning the "+menuItemType+".";
+            failMsg = "That is not a valid "+menuItemType+" to return.";
+        } else if (menuType.equals("checkout")){
+            successMsg = "Thank you! Enjoy the "+menuItemType+".";
+            failMsg = "That "+menuItemType+" is not available.";
+        }
+
+        if(menuItemType.equals("book")){
+            itemList = bookList;
+        } else if (menuItemType.equals("movie")){
+            itemList = movieList;
+        }
+
+        Boolean valid = selection > 0 && selection <= itemList.size();
         Boolean success;
         if (valid) {
             if (menuType.equals("checkout")){
-                success = bookList.get(selection - 1).checkOut();
+                success = itemList.get(selection - 1).checkOut();
             } else if (menuType.equals("return")){
-                success = bookList.get(selection - 1).returnBorrowableItem();
+                success = itemList.get(selection - 1).returnBorrowableItem();
             } else{
                 success = false;
             }
