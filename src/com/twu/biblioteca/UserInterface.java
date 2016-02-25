@@ -23,7 +23,7 @@ public class UserInterface {
         return getBookListString(false);
     }
 
-    public String getBookListString(boolean numbered){
+    private String getBookListString(boolean numbered){
         String bookListString = "";
         int bookNumber = 1;
         if(!numbered) {
@@ -44,7 +44,6 @@ public class UserInterface {
                 bookListString += "\n";
             }
         }
-        bookListString += "\n";
         return bookListString;
     }
 
@@ -89,17 +88,17 @@ public class UserInterface {
         return EXIT_CODE;
     }
 
-    public String invalidMenuSelection(){
+    private String invalidMenuSelection(){
         return "Select a valid option!";
     }
 
-    public String getCheckOutMenu() {
+    private String getCheckOutMenu() {
         String checkOutMenu= "Which book is being checked out? Make a selection.\n"+ getBookListString(true);
 
         return checkOutMenu;
     }
 
-    public String getReturnMenu() {
+    private String getReturnMenu() {
         String returnMenu = "Which book is being returned? Make a selection.\n"+ getBookListString(true);
 
         return returnMenu;
@@ -119,9 +118,9 @@ public class UserInterface {
         return secondaryMenuSelection(selection, successMsg, failMsg, menuType);
     }
 
-    public String secondaryMenuSelection(int selection, String successMsg, String failMsg, String menuType){
+    private String secondaryMenuSelection(int selection, String successMsg, String failMsg, String menuType){
         String msg;
-        Boolean valid = selection > 0 && selection < bookList.size();
+        Boolean valid = selection > 0 && selection <= bookList.size();
         Boolean success;
         if (valid) {
             if (menuType.equals("checkout")){
@@ -144,7 +143,7 @@ public class UserInterface {
         return msg;
     }
 
-    public String generateNChars(int n, char c){
+    private String generateNChars(int n, char c){
         String s = "";
         for(int i = 0; i<n; i++){
             s += c;

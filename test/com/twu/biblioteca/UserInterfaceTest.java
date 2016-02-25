@@ -12,11 +12,11 @@ public class UserInterfaceTest {
     String bookListString =   "Title                           Author                          Year\n"+
                         "1984                          | George Orwell                 | 1949\n"+
                         "Lolita                        | Vladmir Nabokov               | 1955\n"+
-                        "The Old Patagonian Express    | Paul Theroux                  | 1979\n\n";
+                        "The Old Patagonian Express    | Paul Theroux                  | 1979\n";
 
     String bookListStringWithout1984 =   "Title                           Author                          Year\n"+
             "Lolita                        | Vladmir Nabokov               | 1955\n"+
-            "The Old Patagonian Express    | Paul Theroux                  | 1979\n\n";
+            "The Old Patagonian Express    | Paul Theroux                  | 1979\n";
 
     String menuString = "Choose from the following options and press enter:\n" +
             "1. List Books\n" +
@@ -70,7 +70,7 @@ public class UserInterfaceTest {
         String checkoutMenu = "Which book is being checked out? Make a selection.\n"+
                 "1. 1984                          | George Orwell                 | 1949\n" +
                 "2. Lolita                        | Vladmir Nabokov               | 1955\n" +
-                "3. The Old Patagonian Express    | Paul Theroux                  | 1979\n\n";
+                "3. The Old Patagonian Express    | Paul Theroux                  | 1979\n";
         assertEquals(checkoutMenu, ui.getMenuOption(2));
     }
 
@@ -92,7 +92,20 @@ public class UserInterfaceTest {
         String checkoutMenu = "Which book is being returned? Make a selection.\n"+
                 "1. 1984                          | George Orwell                 | 1949\n" +
                 "2. Lolita                        | Vladmir Nabokov               | 1955\n" +
-                "3. The Old Patagonian Express    | Paul Theroux                  | 1979\n\n";
+                "3. The Old Patagonian Express    | Paul Theroux                  | 1979\n";
         assertEquals(checkoutMenu, ui.getMenuOption(3));
+    }
+
+    @Test
+    public void testReturnSuccessMessage(){
+        ArrayList<Book> blWithCheckout = bl;
+        blWithCheckout.get(0).checkOut();
+        UserInterface uiWithCheckout = new UserInterface(blWithCheckout);
+        assertEquals(uiWithCheckout.returnMenuSelection(1), "Thank you for returning the book.");
+    }
+
+    @Test
+    public void testReturnFailureMenu(){
+        assertEquals(ui.returnMenuSelection(1), "That is not a valid book to return.");
     }
 }

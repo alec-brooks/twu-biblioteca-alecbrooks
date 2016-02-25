@@ -13,7 +13,7 @@ public class BookTest {
     public ArrayList<Book> getBookList(){
         Book b1984 = new Book("1984","George Orwell",1949);
         Book bLolita = new Book("Lolita","Vladmir Nabokov",1955);
-        Book bOldPat = new Book("The Grand Patagonian Express","Paul Theroux",1979);
+        Book bOldPat = new Book("The Old Patagonian Express","Paul Theroux",1979);
 
         ArrayList<Book> bookList = new ArrayList<Book>();
 

@@ -10,7 +10,7 @@ public class Library {
         bookList = generateNewBooklist();
     }
 
-    public ArrayList<Book> generateNewBooklist(){
+    private ArrayList<Book> generateNewBooklist(){
         Book b1984 = new Book("1984","George Orwell",1949);
         Book bLolita = new Book("Lolita","Vladmir Nabokov",1955);
         Book bOldPat = new Book("The Old Patagonian Express","Paul Theroux",1979);
