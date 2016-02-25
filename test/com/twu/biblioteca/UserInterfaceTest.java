@@ -9,10 +9,16 @@ import static org.junit.Assert.assertEquals;
 
 public class UserInterfaceTest {
 
-    String bookListString =   "Title                           Author                          Year\n"+
-                        "1984                          | George Orwell                 | 1949\n"+
-                        "Lolita                        | Vladmir Nabokov               | 1955\n"+
-                        "The Old Patagonian Express    | Paul Theroux                  | 1979\n";
+    String bookListString = "Title                           Author                          Year\n"+
+                            "1984                          | George Orwell                 | 1949\n"+
+                            "Lolita                        | Vladmir Nabokov               | 1955\n"+
+                            "The Old Patagonian Express    | Paul Theroux                  | 1979\n";
+
+    String movieListString ="Title                           Director                        Year  Rating\n"+
+                            "Nosferatu                     | F.W. Murnau                   | 1922| 8\n"+
+                            "Samurai Cop                   | Amir Shervan                  | 1991| unrated\n"+
+                            "Pi                            | Darren Aronofsky              | 1998| 7\n";
+
 
     String bookListStringWithout1984 =   "Title                           Author                          Year\n"+
             "Lolita                        | Vladmir Nabokov               | 1955\n"+
@@ -22,10 +28,12 @@ public class UserInterfaceTest {
             "1. List Books\n" +
             "2. Checkout Book\n" +
             "3. Return Book\n" +
+            "4. List Movies\n" +
             "0. Quit";
 
-    ArrayList<Book> bl = new Library().getBookList();
-    UserInterface ui = new UserInterface(bl);
+    ArrayList<BorrowableItem> bl = new Library().getBookList();
+    ArrayList<BorrowableItem> ml = new Library().getMovieList();
+    UserInterface ui = new UserInterface(bl, ml);
 
     @Test
     public void testGetWelcomeMessage() {
@@ -60,9 +68,9 @@ public class UserInterfaceTest {
 
     @Test
     public void testListBooksAfterCheckout(){
-        ArrayList<Book> blWithCheckout = bl;
+        ArrayList<BorrowableItem> blWithCheckout = bl;
         blWithCheckout.get(0).checkOut();
-        UserInterface uiWithCheckout = new UserInterface(blWithCheckout);
+        UserInterface uiWithCheckout = new UserInterface(blWithCheckout, ml);
         assertEquals(bookListStringWithout1984, uiWithCheckout.getMenuOption(1));
     }
     @Test
@@ -81,9 +89,9 @@ public class UserInterfaceTest {
 
     @Test
     public void testCheckoutFailureMessage(){
-        ArrayList<Book> blWithCheckout = bl;
+        ArrayList<BorrowableItem> blWithCheckout = bl;
         blWithCheckout.get(0).checkOut();
-        UserInterface uiWithCheckout = new UserInterface(blWithCheckout);
+        UserInterface uiWithCheckout = new UserInterface(blWithCheckout, ml);
         assertEquals(uiWithCheckout.checkOutMenuSelection(1), "That book is not available.");
     }
 
@@ -98,14 +106,19 @@ public class UserInterfaceTest {
 
     @Test
     public void testReturnSuccessMessage(){
-        ArrayList<Book> blWithCheckout = bl;
+        ArrayList<BorrowableItem> blWithCheckout = bl;
         blWithCheckout.get(0).checkOut();
-        UserInterface uiWithCheckout = new UserInterface(blWithCheckout);
+        UserInterface uiWithCheckout = new UserInterface(blWithCheckout, ml);
         assertEquals(uiWithCheckout.returnMenuSelection(1), "Thank you for returning the book.");
     }
 
     @Test
     public void testReturnFailureMenu(){
         assertEquals(ui.returnMenuSelection(1), "That is not a valid book to return.");
+    }
+
+    @Test
+    public void testGetMovieList(){
+        assertEquals(movieListString, ui.getMovieListString());
     }
 }

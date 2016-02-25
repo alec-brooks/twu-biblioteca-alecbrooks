@@ -7,12 +7,14 @@ public class UserInterface {
     final String WELCOME_MESSAGE = "Welcome to Biblioteca, an interactive Library Management System";
     final int EXIT_CODE = 0;
     final int TITLE_LIMIT = 30;
-    final int AUTHOR_LIMIT = 30;
+    final int CREATOR_LIMIT = 30;
     final String DELIMITER = "| ";
-    ArrayList<Book> bookList;
+    ArrayList<BorrowableItem> bookList;
+    ArrayList<BorrowableItem> movieList;
 
-    public UserInterface(ArrayList<Book> bl){
-        bookList = bl;
+    public UserInterface(ArrayList<BorrowableItem> bookList, ArrayList<BorrowableItem> movieList){
+        this.bookList = bookList;
+        this.movieList = movieList;
     }
 
     public String getWelcomeMessage(){
@@ -23,28 +25,60 @@ public class UserInterface {
         return getBookListString(false);
     }
 
-    private String getBookListString(boolean numbered){
-        String bookListString = "";
-        int bookNumber = 1;
-        if(!numbered) {
-            bookListString = "Title                           Author                          Year\n";
+    private String getBookListString(boolean numbered) {
+        return getBorrowableItemListString("book", numbered);
+    }
+
+    private String getMovieListString(boolean numbered) {
+        return getBorrowableItemListString("movie", numbered);
+    }
+
+    public String getMovieListString(){
+        return getMovieListString(false);
+    }
+
+    private String getBorrowableItemListString(String borrowableItemType, boolean numbered){
+        String listString = "";
+        int itemNumber = 1;
+        String heading = "";
+        ArrayList<BorrowableItem> itemList = new ArrayList<BorrowableItem>();
+
+        if(borrowableItemType.equals("book")) {
+            heading = "Title                           Author                          Year\n";
+            itemList = bookList;
+        } else if (borrowableItemType.equals("movie")) {
+            heading  ="Title                           Director                        Year  Rating\n";
+            itemList = movieList;
         }
-        for(Book b: bookList){
+
+        if(!numbered) {
+            listString += heading;
+        }
+        for(BorrowableItem b: itemList){
             if(numbered || !b.getCheckedOut()){
                 if(numbered){
-                    bookListString += bookNumber++ + ". ";
+                    listString += itemNumber++ + ". ";
                 }
-                bookListString += b.getTitle();
-                bookListString += generateNChars(TITLE_LIMIT - b.getTitle().length(), ' ');
-                bookListString += DELIMITER;
-                bookListString += b.getAuthor();
-                bookListString += generateNChars(AUTHOR_LIMIT - b.getAuthor().length(), ' ');
-                bookListString += DELIMITER;
-                bookListString += b.getYearPublished();
-                bookListString += "\n";
+                listString += b.getTitle();
+                listString += generateNChars(TITLE_LIMIT - b.getTitle().length(), ' ');
+                listString += DELIMITER;
+                listString += b.getCreator();
+                listString += generateNChars(CREATOR_LIMIT - b.getCreator().length(), ' ');
+                listString += DELIMITER;
+                listString += b.getYearReleased();
+                if(borrowableItemType.equals("movie")){
+                    listString += DELIMITER;
+                    if(b.getRating() > 0) {
+                        listString += b.getRating();
+                    } else {
+                        listString += "unrated";
+                    }
+                }
+                listString += "\n";
+
             }
         }
-        return bookListString;
+        return listString;
     }
 
     public String getMenuString(){
@@ -52,6 +86,7 @@ public class UserInterface {
                 "1. List Books\n" +
                 "2. Checkout Book\n" +
                 "3. Return Book\n" +
+                "4. List Movies\n" +
                 "0. Quit";
         return menuString;
     }
@@ -64,6 +99,10 @@ public class UserInterface {
                 return getCheckOutMenu();
             case 3:
                 return getReturnMenu();
+            case 4:
+                return getMovieListString();
+            case 5:
+                return getCheckOutMenu();
             case 0:
                 return "";
             default:
@@ -126,7 +165,7 @@ public class UserInterface {
             if (menuType.equals("checkout")){
                 success = bookList.get(selection - 1).checkOut();
             } else if (menuType.equals("return")){
-                success = bookList.get(selection - 1).returnBook();
+                success = bookList.get(selection - 1).returnBorrowableItem();
             } else{
                 success = false;
             }
