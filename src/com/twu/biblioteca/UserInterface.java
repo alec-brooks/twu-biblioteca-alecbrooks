@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 public class UserInterface {
     final String WELCOME_MESSAGE = "Welcome to Biblioteca, an interactive Library Management System";
-    final String LOGIN_SCREEN = "Login: ";
-    final String PASSWORD_SCREEN = "Password: ";
     final int EXIT_CODE = 0;
     final int TITLE_LIMIT = 30;
     final int CREATOR_LIMIT = 30;
@@ -155,14 +153,6 @@ public class UserInterface {
         String menuType = "return";
         String menuItemType = "movie";
         return secondaryMenuSelection(selection, menuType, menuItemType);
-    }
-
-    public String getLoginScreen(){
-        return LOGIN_SCREEN;
-    }
-
-    public String getPasswordScreen(){
-        return PASSWORD_SCREEN;
     }
 
     private String invalidMenuSelection(){

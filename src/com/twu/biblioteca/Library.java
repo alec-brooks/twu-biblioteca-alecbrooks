@@ -1,15 +1,19 @@
 package com.twu.biblioteca;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Library {
     ArrayList<BorrowableItem> bookList = new ArrayList<BorrowableItem>();
     ArrayList<BorrowableItem> movieList = new ArrayList<BorrowableItem>();
+    Map<String, User> userMap = new HashMap<String, User>();
     UserInterface ui;
 
     public Library(){
         bookList = generateNewBookList();
         movieList = generateNewMovielist();
+        userMap = generateNewUserMap();
     }
 
     private ArrayList<BorrowableItem> generateNewMovielist(){
@@ -40,18 +44,18 @@ public class Library {
         return bl;
     }
 
-    private ArrayList<User> generateNewUserList(){
-        User uAlec = new User("123-4567");
-        User uJoe = new User("111-1111");
-        User uJim = new User("222-2222");
+    private Map<String, User> generateNewUserMap(){
+        User uAlec = new User("123-4567", "abc");
+        User uJoe = new User("111-1111", "123");
+        User uJim = new User("222-2222", "you&me");
 
-        ArrayList<User> ul = new ArrayList<User>();
+        Map<String, User> um = new HashMap<String, User>();
 
-        ul.add(uAlec);
-        ul.add(uJoe);
-        ul.add(uJim);
+        um.put(uAlec.getUsername(), uAlec);
+        um.put(uJoe.getUsername(), uJoe);
+        um.put(uJim.getUsername(), uJim);
 
-        return ul;
+        return um;
     }
 
     public ArrayList<BorrowableItem> getBookList() {
@@ -65,6 +69,8 @@ public class Library {
     public void runUI(){
         ui = new UserInterface(bookList, movieList);
         System.out.println(ui.getWelcomeMessage());
+
+        User currentUser = new Login(userMap).runLoginScreen();
 
         int menuSelection = -1;
 
