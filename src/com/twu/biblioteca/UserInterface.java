@@ -89,11 +89,12 @@ public class UserInterface {
                 "4. List Movies\n" +
                 "5. Checkout Movie\n" +
                 "6. Return Movie\n" +
+                "7. View Contact Information\n" +
                 "0. Quit";
         return menuString;
     }
 
-    public String getMenuOption(int selection){
+    public String getMenuOption(int selection, User user){
         switch (selection){
             case 1:
                 return getBookListString();
@@ -107,6 +108,8 @@ public class UserInterface {
                 return getMovieCheckOutMenu();
             case 6:
                 return getMovieReturnMenu();
+            case 7:
+                return user.getContactInformation();
             case 0:
                 return "";
             default:

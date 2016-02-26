@@ -17,9 +17,9 @@ public class LoginTest {
     final private Login login = new Login(generateNewUserMap());
 
     private Map<String, User> generateNewUserMap(){
-        User uAlec = new User("123-4567", "abc");
-        User uJoe = new User("111-1111", "123");
-        User uJim = new User("222-2222", "you&me");
+        User uAlec = new User("123-4567", "abc", "a@b.com\n0411111111");
+        User uJoe = new User("111-1111", "123", "+61412345678");
+        User uJim = new User("222-2222", "you&me", "7 Blah St");
 
         Map<String, User> um = new HashMap<String, User>();
 

@@ -45,9 +45,9 @@ public class Library {
     }
 
     private Map<String, User> generateNewUserMap(){
-        User uAlec = new User("123-4567", "abc");
-        User uJoe = new User("111-1111", "123");
-        User uJim = new User("222-2222", "you&me");
+        User uAlec = new User("123-4567", "abc", "a@b.com\n0411111111");
+        User uJoe = new User("111-1111", "123", "+61412345678");
+        User uJim = new User("222-2222", "you&me", "7 Blah St");
 
         Map<String, User> um = new HashMap<String, User>();
 
@@ -77,7 +77,7 @@ public class Library {
         while(menuSelection != ui.getExitCode()){
             System.out.println(ui.getMenuString());
             menuSelection = ui.getUserMenuSelection();
-            System.out.println(ui.getMenuOption(menuSelection));
+            System.out.println(ui.getMenuOption(menuSelection, currentUser));
 
             switch (menuSelection){
                 case 2:

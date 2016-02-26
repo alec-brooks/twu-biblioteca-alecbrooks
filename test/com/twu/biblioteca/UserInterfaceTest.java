@@ -31,8 +31,10 @@ public class UserInterfaceTest {
             "4. List Movies\n" +
             "5. Checkout Movie\n" +
             "6. Return Movie\n" +
+            "7. View Contact Information\n" +
             "0. Quit";
 
+    User user = new User("123-4567", "abc", "a@b.com\n0411111111");
     ArrayList<BorrowableItem> bl = new Library().getBookList();
     ArrayList<BorrowableItem> ml = new Library().getMovieList();
     UserInterface ui = new UserInterface(bl, ml);
@@ -55,17 +57,17 @@ public class UserInterfaceTest {
 
     @Test
     public void testListBooksSelection(){
-        assertEquals(bookListString, ui.getMenuOption(1));
+        assertEquals(bookListString, ui.getMenuOption(1, user));
     }
 
     @Test
     public void testInvalidMenuSelection(){
-        assertEquals("Select a valid option!", ui.getMenuOption(9));
+        assertEquals("Select a valid option!", ui.getMenuOption(9, user));
     }
 
     @Test
     public void testQuitMessage(){
-        assertEquals("", ui.getMenuOption(0));
+        assertEquals("", ui.getMenuOption(0, user));
     }
 
     @Test
@@ -73,7 +75,7 @@ public class UserInterfaceTest {
         ArrayList<BorrowableItem> blWithCheckout = bl;
         blWithCheckout.get(0).checkOut();
         UserInterface uiWithCheckout = new UserInterface(blWithCheckout, ml);
-        assertEquals(bookListStringWithout1984, uiWithCheckout.getMenuOption(1));
+        assertEquals(bookListStringWithout1984, uiWithCheckout.getMenuOption(1, user));
     }
     @Test
     public void testInitialBookCheckoutMenu(){
@@ -81,7 +83,7 @@ public class UserInterfaceTest {
                 "1. 1984                          | George Orwell                 | 1949\n" +
                 "2. Lolita                        | Vladmir Nabokov               | 1955\n" +
                 "3. The Old Patagonian Express    | Paul Theroux                  | 1979\n";
-        assertEquals(checkoutMenu, ui.getMenuOption(2));
+        assertEquals(checkoutMenu, ui.getMenuOption(2, user));
     }
 
     @Test
@@ -103,7 +105,7 @@ public class UserInterfaceTest {
                 "1. 1984                          | George Orwell                 | 1949\n" +
                 "2. Lolita                        | Vladmir Nabokov               | 1955\n" +
                 "3. The Old Patagonian Express    | Paul Theroux                  | 1979\n";
-        assertEquals(checkoutMenu, ui.getMenuOption(3));
+        assertEquals(checkoutMenu, ui.getMenuOption(3, user));
     }
 
     @Test
@@ -131,6 +133,12 @@ public class UserInterfaceTest {
                 "2. Samurai Cop                   | Amir Shervan                  | 1991| unrated\n"+
                 "3. Pi                            | Darren Aronofsky              | 1998| 7\n";
 
-        assertEquals(menu, ui.getMenuOption(5));
+        assertEquals(menu, ui.getMenuOption(5, user));
     }
+
+    @Test
+    public void testGetUserInformation(){
+        assertEquals("a@b.com\n0411111111", ui.getMenuOption(7, user));
+    }
+
 }
