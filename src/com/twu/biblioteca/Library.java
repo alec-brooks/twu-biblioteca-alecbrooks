@@ -40,6 +40,20 @@ public class Library {
         return bl;
     }
 
+    private ArrayList<User> generateNewUserList(){
+        User uAlec = new User("123-4567");
+        User uJoe = new User("111-1111");
+        User uJim = new User("222-2222");
+
+        ArrayList<User> ul = new ArrayList<User>();
+
+        ul.add(uAlec);
+        ul.add(uJoe);
+        ul.add(uJim);
+
+        return ul;
+    }
+
     public ArrayList<BorrowableItem> getBookList() {
         return bookList;
     }

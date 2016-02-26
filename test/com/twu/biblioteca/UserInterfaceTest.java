@@ -134,5 +134,16 @@ public class UserInterfaceTest {
         assertEquals(menu, ui.getMenuOption(5));
     }
 
+    @Test
+    public void testLogInScreen(){
+        String loginScreen = "Login: ";
+        assertEquals(loginScreen, ui.getLoginScreen());
+    }
+
+    @Test
+    public void testPasswordScreen(){
+        String passwordScreen = "Password: ";
+        assertEquals(passwordScreen, ui.getPasswordScreen());
+    }
 
 }

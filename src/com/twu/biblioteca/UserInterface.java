@@ -5,6 +5,8 @@ import java.util.Scanner;
 
 public class UserInterface {
     final String WELCOME_MESSAGE = "Welcome to Biblioteca, an interactive Library Management System";
+    final String LOGIN_SCREEN = "Login: ";
+    final String PASSWORD_SCREEN = "Password: ";
     final int EXIT_CODE = 0;
     final int TITLE_LIMIT = 30;
     final int CREATOR_LIMIT = 30;
@@ -131,6 +133,38 @@ public class UserInterface {
         return EXIT_CODE;
     }
 
+    public String checkOutBookMenuSelection(int selection) {
+        String menuType = "checkout";
+        String menuItemType = "book";
+        return secondaryMenuSelection(selection, menuType, menuItemType);
+    }
+
+    public String returnBookMenuSelection(int selection) {
+        String menuType = "return";
+        String menuItemType = "book";
+        return secondaryMenuSelection(selection, menuType, menuItemType);
+    }
+
+    public String checkOutMovieMenuSelection(int selection) {
+        String menuType = "checkout";
+        String menuItemType = "movie";
+        return secondaryMenuSelection(selection, menuType, menuItemType);
+    }
+
+    public String returnMovieMenuSelection(int selection) {
+        String menuType = "return";
+        String menuItemType = "movie";
+        return secondaryMenuSelection(selection, menuType, menuItemType);
+    }
+
+    public String getLoginScreen(){
+        return LOGIN_SCREEN;
+    }
+
+    public String getPasswordScreen(){
+        return PASSWORD_SCREEN;
+    }
+
     private String invalidMenuSelection(){
         return "Select a valid option!";
     }
@@ -163,30 +197,6 @@ public class UserInterface {
         String secondaryMenu = "Which "+menuItemType+" is being "+pastVerb+"? Make a selection.\n"+ listString;
 
         return secondaryMenu;
-    }
-
-    public String checkOutBookMenuSelection(int selection) {
-        String menuType = "checkout";
-        String menuItemType = "book";
-        return secondaryMenuSelection(selection, menuType, menuItemType);
-    }
-
-    public String returnBookMenuSelection(int selection) {
-        String menuType = "return";
-        String menuItemType = "book";
-        return secondaryMenuSelection(selection, menuType, menuItemType);
-    }
-
-    public String checkOutMovieMenuSelection(int selection) {
-        String menuType = "checkout";
-        String menuItemType = "movie";
-        return secondaryMenuSelection(selection, menuType, menuItemType);
-    }
-
-    public String returnMovieMenuSelection(int selection) {
-        String menuType = "return";
-        String menuItemType = "movie";
-        return secondaryMenuSelection(selection, menuType, menuItemType);
     }
     private String secondaryMenuSelection(int selection, String menuType, String menuItemType){
         String msg;
