@@ -88,7 +88,7 @@ public class UserInterfaceTest {
 
     @Test
     public void testCheckoutSuccessMessage(){
-        assertEquals(ui.checkOutBookMenuSelection(1), "Thank you! Enjoy the book.");
+        assertEquals(ui.checkOutBookMenuSelection(1, user), "Thank you! Enjoy the book.");
     }
 
     @Test
@@ -96,7 +96,7 @@ public class UserInterfaceTest {
         ArrayList<BorrowableItem> blWithCheckout = bl;
         blWithCheckout.get(0).checkOut();
         UserInterface uiWithCheckout = new UserInterface(blWithCheckout, ml);
-        assertEquals(uiWithCheckout.checkOutBookMenuSelection(1), "That book is not available.");
+        assertEquals(uiWithCheckout.checkOutBookMenuSelection(1, user), "That book is not available.");
     }
 
     @Test
@@ -113,12 +113,12 @@ public class UserInterfaceTest {
         ArrayList<BorrowableItem> blWithCheckout = bl;
         blWithCheckout.get(0).checkOut();
         UserInterface uiWithCheckout = new UserInterface(blWithCheckout, ml);
-        assertEquals(uiWithCheckout.returnBookMenuSelection(1), "Thank you for returning the book.");
+        assertEquals(uiWithCheckout.returnBookMenuSelection(1, user), "Thank you for returning the book.");
     }
 
     @Test
     public void testReturnFailureMenu(){
-        assertEquals(ui.returnBookMenuSelection(1), "That is not a valid book to return.");
+        assertEquals(ui.returnBookMenuSelection(1, user), "That is not a valid book to return.");
     }
 
     @Test

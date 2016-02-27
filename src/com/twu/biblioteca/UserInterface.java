@@ -134,28 +134,28 @@ public class UserInterface {
         return EXIT_CODE;
     }
 
-    public String checkOutBookMenuSelection(int selection) {
+    public String checkOutBookMenuSelection(int selection, User user) {
         String menuType = "checkout";
         String menuItemType = "book";
-        return secondaryMenuSelection(selection, menuType, menuItemType);
+        return secondaryMenuSelection(selection, menuType, menuItemType, user);
     }
 
-    public String returnBookMenuSelection(int selection) {
+    public String returnBookMenuSelection(int selection, User user) {
         String menuType = "return";
         String menuItemType = "book";
-        return secondaryMenuSelection(selection, menuType, menuItemType);
+        return secondaryMenuSelection(selection, menuType, menuItemType, user);
     }
 
-    public String checkOutMovieMenuSelection(int selection) {
+    public String checkOutMovieMenuSelection(int selection, User user) {
         String menuType = "checkout";
         String menuItemType = "movie";
-        return secondaryMenuSelection(selection, menuType, menuItemType);
+        return secondaryMenuSelection(selection, menuType, menuItemType, user);
     }
 
-    public String returnMovieMenuSelection(int selection) {
+    public String returnMovieMenuSelection(int selection, User user) {
         String menuType = "return";
         String menuItemType = "movie";
-        return secondaryMenuSelection(selection, menuType, menuItemType);
+        return secondaryMenuSelection(selection, menuType, menuItemType, user);
     }
 
     private String invalidMenuSelection(){
@@ -191,7 +191,7 @@ public class UserInterface {
 
         return secondaryMenu;
     }
-    private String secondaryMenuSelection(int selection, String menuType, String menuItemType){
+    private String secondaryMenuSelection(int selection, String menuType, String menuItemType, User user){
         String msg;
         String successMsg = "";
         String failMsg = "";
@@ -224,6 +224,11 @@ public class UserInterface {
             }
             if(success){
                 msg =  successMsg;
+                if(menuType.equals("checkout")){
+                    user.addCheckout(itemList.get(selection-1));
+                } else {
+                    user.removeCheckoutByTitle(itemList.get(selection-1).getTitle());
+                }
             } else {
                 msg = failMsg;
             }

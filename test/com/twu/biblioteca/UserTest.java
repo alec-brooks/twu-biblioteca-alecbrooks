@@ -26,4 +26,19 @@ public class UserTest {
     public void testGetContactInformation(){
         assertEquals(user.getContactInformation(), "a@b.com\n0411111111");
     }
+
+    @Test
+    public void testAddToCheckoutList(){
+        Book b1984 = new Book("1984", "George Orwell", 1949);
+        user.addCheckout(b1984);
+        assertEquals(b1984.getTitle(), user.getCheckedOutList().get(0).getTitle());
+    }
+
+    @Test
+    public void testReturnFromCheckoutListByTitle(){
+        Book b1984 = new Book("1984", "George Orwell", 1949);
+        user.addCheckout(b1984);
+        user.removeCheckoutByTitle("1984");
+        assertEquals(0, user.getCheckedOutList().size());
+    }
 }

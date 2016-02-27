@@ -81,16 +81,16 @@ public class Library {
 
             switch (menuSelection){
                 case 2:
-                    System.out.println(ui.checkOutBookMenuSelection(ui.getUserMenuSelection()));
+                    System.out.println(ui.checkOutBookMenuSelection(ui.getUserMenuSelection(), currentUser));
                     break;
                 case 3:
-                    System.out.println(ui.returnBookMenuSelection(ui.getUserMenuSelection()));
+                    System.out.println(ui.returnBookMenuSelection(ui.getUserMenuSelection(), currentUser));
                     break;
                 case 5:
-                    System.out.println(ui.checkOutMovieMenuSelection(ui.getUserMenuSelection()));
+                    System.out.println(ui.checkOutMovieMenuSelection(ui.getUserMenuSelection(), currentUser));
                     break;
                 case 6:
-                    System.out.println(ui.returnMovieMenuSelection(ui.getUserMenuSelection()));
+                    System.out.println(ui.returnMovieMenuSelection(ui.getUserMenuSelection(), currentUser));
                     break;
                 default:
                     break;
