@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class UserInterface {
-    final String WELCOME_MESSAGE = "Welcome to Biblioteca, an interactive Library Management System";
-    final int EXIT_CODE = 0;
-    final int TITLE_LIMIT = 30;
-    final int CREATOR_LIMIT = 30;
-    final String DELIMITER = "| ";
+    final static String WELCOME_MESSAGE = "Welcome to Biblioteca, an interactive Library Management System";
+    final static int EXIT_CODE = 0;
+    final static int TITLE_LIMIT = 30;
+    final static int CREATOR_LIMIT = 30;
+    final static String DELIMITER = "| ";
     ArrayList<BorrowableItem> bookList;
     ArrayList<BorrowableItem> movieList;
 
@@ -191,20 +191,29 @@ public class UserInterface {
 
         return secondaryMenu;
     }
-    private String secondaryMenuSelection(int selection, String menuType, String menuItemType, User user){
-        String msg;
-        String successMsg = "";
-        String failMsg = "";
 
-        ArrayList<BorrowableItem> itemList = new ArrayList<BorrowableItem>();
-
+    private String getSecondaryMenuSuccessMsg(String menuType, String menuItemType){
+        String msg = "";
         if(menuType.equals("return")){
-            successMsg = "Thank you for returning the "+menuItemType+".";
-            failMsg = "That is not a valid "+menuItemType+" to return.";
+            msg = "Thank you for returning the "+menuItemType+".";
         } else if (menuType.equals("checkout")){
-            successMsg = "Thank you! Enjoy the "+menuItemType+".";
-            failMsg = "That "+menuItemType+" is not available.";
+            msg = "Thank you! Enjoy the "+menuItemType+".";
         }
+        return msg;
+    }
+
+    private String getSecondaryMenuFailMsg(String menuType, String menuItemType){
+        String msg = "";
+        if(menuType.equals("return")){
+            msg = "That is not a valid "+menuItemType+" to return.";
+        } else if (menuType.equals("checkout")){
+            msg = "That "+menuItemType+" is not available.";
+        }
+        return msg;
+    }
+
+    private ArrayList<BorrowableItem> getSecondaryMenuItemList(String menuItemType){
+        ArrayList<BorrowableItem> itemList = new ArrayList<BorrowableItem>();
 
         if(menuItemType.equals("book")){
             itemList = bookList;
@@ -212,25 +221,36 @@ public class UserInterface {
             itemList = movieList;
         }
 
-        Boolean valid = selection > 0 && selection <= itemList.size();
-        Boolean success;
-        if (valid) {
-            if (menuType.equals("checkout")){
-                success = itemList.get(selection - 1).checkOut();
-            } else if (menuType.equals("return")){
-                success = itemList.get(selection - 1).returnBorrowableItem();
-            } else{
-                success = false;
-            }
-            if(success){
-                msg =  successMsg;
+        return itemList;
+    }
+
+    private String secondaryMenuSelection(int selection, String menuType, String menuItemType, User user){
+        String msg;
+        String successMsg;
+        String failMsg;
+
+        ArrayList<BorrowableItem> itemList;
+
+        itemList = getSecondaryMenuItemList(menuItemType);
+
+        msg = determineSecondaryMenuMsg(itemList, menuType, menuItemType, selection, user);
+
+        return msg;
+    }
+
+    private String determineSecondaryMenuMsg(ArrayList<BorrowableItem> itemList, String menuType, String menuItemType, int selection, User user){
+        String msg;
+
+        if (isValidSelection(selection, itemList)) {
+            if(isSuccessfulTransaction(selection, itemList, menuType)){
+                msg =  getSecondaryMenuSuccessMsg(menuType, menuItemType);
                 if(menuType.equals("checkout")){
                     user.addCheckout(itemList.get(selection-1));
                 } else {
                     user.removeCheckoutByTitle(itemList.get(selection-1).getTitle());
                 }
             } else {
-                msg = failMsg;
+                msg = getSecondaryMenuFailMsg(menuType, menuItemType);
             }
 
         } else {
@@ -238,6 +258,22 @@ public class UserInterface {
         }
 
         return msg;
+    }
+
+    private Boolean isValidSelection(int selection, ArrayList<BorrowableItem> itemList){
+        return selection > 0 && selection <= itemList.size();
+    }
+
+    private Boolean isSuccessfulTransaction(int selection, ArrayList<BorrowableItem> itemList, String menuType){
+        Boolean success;
+        if (menuType.equals("checkout")){
+            success = itemList.get(selection - 1).checkOut();
+        } else if (menuType.equals("return")){
+            success = itemList.get(selection - 1).returnBorrowableItem();
+        } else{
+            success = false;
+        }
+        return  success;
     }
 
     private String generateNChars(int n, char c){
